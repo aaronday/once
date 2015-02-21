@@ -1,0 +1,24 @@
+<?php
+
+function once_menu(){
+    $items['home'] = array(
+        'title' => 'Home page',
+        'type' => MENU_CALLBACK,
+        'page callback' => 'home_page_display',
+        'page arguments' => array(),
+        'access callback' => TRUE,
+        'file' => 'once.inc',
+    );
+    
+    return $items;
+}
+
+function once_theme() {
+    $themes['home_page_view'] = array(
+        'path' => drupal_get_path('module', 'once') . '/templates',
+        'template' => 'home_page_view',
+    );
+    
+    return $themes;
+}
+
