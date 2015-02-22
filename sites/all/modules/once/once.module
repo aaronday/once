@@ -10,6 +10,66 @@ function once_menu(){
         'file' => 'once.inc',
     );
     
+    $items['note'] = array(
+        'title' => 'Note page',
+        'type' => MENU_CALLBACK,
+        'page callback' => 'note_page_display',
+        'page arguments' => array(),
+        'access callback' => 'once_access',
+        'access arguments' => array('access note'),
+        'file' => 'once.inc',
+    );
+    
+    $items['savenote'] = array(
+        'title' => 'save note',
+        'type' => MENU_CALLBACK,
+        'page callback' => 'save_note',
+        'page arguments' => array(),
+        'access callback' => 'once_access',
+        'access arguments' => array('access note'),
+        'file' => 'once.inc',
+    );
+    
+    $items['tip'] = array(
+        'title' => 'Tip page',
+        'type' => MENU_CALLBACK,
+        'page callback' => 'tip_page_display',
+        'page arguments' => array(),
+        'access callback' => 'once_access',
+        'access arguments' => array('access note'),
+        'file' => 'once.inc',
+    );
+    
+    $items['savetip'] = array(
+        'title' => 'save tip',
+        'type' => MENU_CALLBACK,
+        'page callback' => 'save_tip',
+        'page arguments' => array(),
+        'access callback' => 'once_access',
+        'access arguments' => array('access note'),
+        'file' => 'once.inc',
+    );
+    
+    $items['pic'] = array(
+        'title' => 'Picture page',
+        'type' => MENU_CALLBACK,
+        'page callback' => 'pic_page_display',
+        'page arguments' => array(),
+        'access callback' => 'once_access',
+        'access arguments' => array('access note'),
+        'file' => 'once.inc',
+    );
+    
+    $items['savepic'] = array(
+        'title' => 'save pic',
+        'type' => MENU_CALLBACK,
+        'page callback' => 'save_pic',
+        'page arguments' => array(),
+        'access callback' => 'once_access',
+        'access arguments' => array('access note'),
+        'file' => 'once.inc',
+    );
+    
     return $items;
 }
 
@@ -19,6 +79,36 @@ function once_theme() {
         'template' => 'home_page_view',
     );
     
+    $themes['note_page_view'] = array(
+        'path' => drupal_get_path('module', 'once') . '/templates',
+        'template' => 'note_page_view',
+    );
+    
+    $themes['tip_page_view'] = array(
+        'path' => drupal_get_path('module', 'once') . '/templates',
+        'template' => 'tip_page_view',
+    );
+    
+    $themes['pic_page_view'] = array(
+        'path' => drupal_get_path('module', 'once') . '/templates',
+        'template' => 'pic_page_view',
+    );
+    
     return $themes;
+}
+
+function once_access($string, $account = NULL) {
+  global $user;
+
+  if (!isset($account)) {
+    $account = $user;
+  }
+
+  // User #1 has all privileges:
+  if ($account->uid == 1) {
+    return TRUE;
+  }
+  
+  return FALSE;
 }
 

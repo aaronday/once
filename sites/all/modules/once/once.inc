@@ -2,8 +2,94 @@
 
 function home_page_display() {
     $date = _generate_date();
-    $page_content = theme('home_page_view', array('date' => $date));
+    $note = _get_latest_note();
+    $tip = _get_latest_tip();
+    $pic = _get_latest_pic();
+    $page_content = theme('home_page_view', array('date' => $date, 'note' => $note, 'tip' => $tip, 'pic' => $pic));
     return $page_content;
+}
+
+function note_page_display() {
+    $page_content = theme('note_page_view');
+    return $page_content;
+}
+
+function tip_page_display() {
+    $page_content = theme('tip_page_view');
+    return $page_content;
+}
+
+function pic_page_display() {
+    $page_content = theme('pic_page_view');
+    return $page_content;
+}
+
+function save_note() {
+    $title = $_POST['title'];
+    $body = $_POST['body'];
+    _insert_note($title, $body);
+}
+
+function _insert_note($title, $body) {
+    $query = db_insert('notes')
+            ->fields(array(
+                'id' => time(),
+                'title' => $title,
+                'body' => $body,
+            ))
+            ->execute();
+}
+
+function save_tip() {
+    $body = $_POST['body'];
+    _insert_tip($body);
+}
+
+function _insert_tip($body) {
+    $query = db_insert('tips')
+            ->fields(array(
+                'id' => time(),
+                'body' => $body,
+            ))
+            ->execute();
+}
+
+function save_pic() {
+    $body = $_POST['body'];
+    _insert_pic($body);
+}
+
+function _insert_pic($body) {
+    $query = db_insert('pics')
+            ->fields(array(
+                'id' => time(),
+                'body' => $body,
+            ))
+            ->execute();
+}
+
+function _get_latest_note() {
+    $query = db_select('notes', 'n');
+    $query->fields('n');
+    $query->orderBy('n.id', 'desc');
+    $result = $query->execute()->fetchObject();
+    return $result->body;
+}
+
+function _get_latest_tip() {
+    $query = db_select('tips', 't');
+    $query->fields('t');
+    $query->orderBy('t.id', 'desc');
+    $result = $query->execute()->fetchObject();
+    return $result->body;
+}
+
+function _get_latest_pic() {
+    $query = db_select('pics', 'p');
+    $query->fields('p');
+    $query->orderBy('p.id', 'desc');
+    $result = $query->execute()->fetchObject();
+    return $result->body;
 }
 
 function _generate_date() {
